@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author Niclas Wolff (n.wolff@micromata.de)
  */
-@Service
+@Service("custom")
 public class SomeOtherDeviceServiceImpl implements DeviceService {
   @Autowired
   private DeviceRepository repository;
@@ -17,8 +17,16 @@ public class SomeOtherDeviceServiceImpl implements DeviceService {
   @Override
   public List<Device> findAll() {
 
+    System.out.println("I am a custom Device Service Impl");
+
     List<Device> cities = (List<Device>) repository.findAll();
 
     return cities;
+  }
+
+  @Override
+  public String greet(String name) {
+    System.out.println("I am the default Device Service Impl");
+    return String.format("Hello %s from a custom Device Service Impl", name);
   }
 }

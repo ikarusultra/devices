@@ -8,4 +8,6 @@ import java.util.List;
  */
 public interface DeviceService {
   List<Device> findAll();
+
+  String greet(String name);
 }

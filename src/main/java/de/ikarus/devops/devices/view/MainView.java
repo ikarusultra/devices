@@ -12,6 +12,7 @@ import com.vaadin.flow.server.PWA;
 import de.ikarus.devops.devices.service.DeviceService;
 import de.ikarus.devops.devices.service.GreetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * A sample Vaadin view class.
@@ -39,9 +40,9 @@ public class MainView extends VerticalLayout {
      * <p>
      * Build the initial UI state for the user accessing the application.
      *
-     * @param service The message service. Automatically injected Spring managed bean.
+     * @param deviceService The message service. Automatically injected Spring managed bean.
      */
-    public MainView(@Autowired DeviceService deviceService) {
+    public MainView(@Autowired @Qualifier("default") DeviceService deviceService) {
 
         // Use TextField for standard text input
         TextField textField = new TextField("Your name");
@@ -49,7 +50,7 @@ public class MainView extends VerticalLayout {
 
         // Button click listeners can be defined as lambda expressions
         Button button = new Button("Say hello",
-                e -> Notification.show(service.greet(textField.getValue())));
+                e -> Notification.show(deviceService.greet(textField.getValue())));
 
         // Theme variants give you predefined extra styles for components.
         // Example: Primary button has a more prominent look.
