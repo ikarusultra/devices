@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devices-service
+  namespace: prod
+spec:
+  selector:
+    app: devices-service
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: devices-service
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devices-service
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devices-service
+  template:
+    metadata:
+      labels:
+        app: devices-service
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+      nodeName: prod-node-1
+      containers:
+        - name: devices-service
+          image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          env:
+            - name: APP_ENVIRONMENT
+              value: 'prod'
+            - name: KAFKA_PREFIX
+              value: prod
+            - name: KAFKA_HOST
+              value: kafka.kafka
+            - name: KAFKA_PORT
+              value: '9094'
+          envFrom:
+            - secretRef:
+                name: devices-prod-db-credentials
+                optional: false
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: devices-ingress
+  namespace: prod
+spec:
+  rules:
+    - host: 116.203.92.21.xip.io
+      http:
+        paths:
+          - backend:
+              serviceName: devices-service
+              servicePort: 8080
+            path: /api/device
+  tls:
+    - hosts:
+        - 116.203.92.21.xip.io
+---
+
+

@@ -11,13 +11,12 @@ import org.springframework.stereotype.Service;
  */
 @Service("default")
 public class DefaultDeviceServiceImpl implements DeviceService {
+
   @Autowired
   private DeviceRepository repository;
 
   @Override
   public List<Device> findAll() {
-
-
 
     List<Device> cities = (List<Device>) repository.findAll();
 
