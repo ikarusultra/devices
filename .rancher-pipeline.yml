@@ -2,7 +2,7 @@ stages:
 - name: Test
   steps:
   - runScriptConfig:
-      image: maven:3.6-jdk-8:latest
+      image: maven:3.6-jdk-8
       shellScript: |-
         mvn test
 - name: Publish
