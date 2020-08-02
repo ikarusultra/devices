@@ -8,10 +8,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * The entry point of the Spring Boot application.
  */
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
+public class DevicesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(DevicesApplication.class, args);
     }
 
 }

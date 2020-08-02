@@ -1,14 +1,20 @@
-
-FROM maven:3.6-jdk-8 as builder
-
-WORKDIR /app
+FROM node:12 as frontend-builder
 
 COPY ./ ./
 
-RUN mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v12.14.0" -X -e -U
+WORKDIR frontend
+
+
+RUN npm i
+
+RUN npm run build
+
+
+FROM maven:3.6-jdk-8 as builder
+
+COPY --from=frontend-builder ./ ./
 
 RUN mvn clean package -U -DskipTests
-
 
 FROM openjdk:8
 
@@ -18,9 +24,11 @@ EXPOSE 8080
 
 WORKDIR /app
 
-COPY --from=builder /app ./
+
+COPY --from=builder /target/devices-0.0.1-SNAPSHOT.jar ./devices.jar
 
 
-CMD java -jar target/devices-service-1.0-SNAPSHOT.jar --spring.profiles.active=$DEVICES_SPRING_PROFILE
+
+CMD java -jar devices.jar --spring.profiles.active=$DEVICES_SPRING_PROFILE
 
 
