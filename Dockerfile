@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY ./ ./
 
-RUN mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v12.14.0"
+RUN mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v12.14.0" -X -e -U
 
 RUN mvn clean package -U -DskipTests
 
