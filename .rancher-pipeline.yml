@@ -4,7 +4,7 @@ stages:
   - runScriptConfig:
       image: maven:3.6-jdk-8
       shellScript: |-
-        mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v12.14.0"
+        mvn clean com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v12.14.0" -X -e -U
         mvn test
 - name: Publish
   steps:
