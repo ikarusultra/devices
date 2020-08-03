@@ -64,7 +64,7 @@ spec:
             path: /api/device
   tls:
     - hosts:
-        - 116.203.92.21.xip.io
+        - devices.116.203.92.21.xip.io
 ---
 
 
